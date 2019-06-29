@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "oCalc", "oCalc\oCalc.csproj", "{8EAE4E43-BAB8-4475-8969-CC8C1D7D3DE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8EAE4E43-BAB8-4475-8969-CC8C1D7D3DE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EAE4E43-BAB8-4475-8969-CC8C1D7D3DE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EAE4E43-BAB8-4475-8969-CC8C1D7D3DE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EAE4E43-BAB8-4475-8969-CC8C1D7D3DE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {60468A7C-33A9-43B0-92EA-497893B68222}
+	EndGlobalSection
+EndGlobal
