@@ -27,10 +27,17 @@ namespace oCalc
                     Console.WriteLine("CONSTANTES: %e -- Numero e");
                     Console.WriteLine("CONSTANTES: %p -- Pi");
                     Console.WriteLine("NEGACION: <x -- valor negativo de x. No puede usarse la notación '-x', en su lugar debe usar '<x' por implementación");
+                    Console.WriteLine("¿(EXPR): Imprimir el árbol de expresiones al que se evalúa EXPR");
                 }
                 else if (input.Contains("="))
                 {
-                    variables[input.Split('=')[0][0]] = ParseExpression.Parse(input.Split('=')[1], variables);
+                    var variableExpression = ParseExpression.Parse(input.Split('=')[1], variables);
+                    variables[input[0]] = new Variable(input[0], variableExpression);
+                }
+                else if (input.StartsWith("¿"))
+                {
+                    var expr = ParseExpression.Parse(input.Substring(1), variables);
+                    Console.WriteLine(expr.AsTree());
                 }
                 else
                 {
