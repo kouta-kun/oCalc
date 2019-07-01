@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace oCalc
 {
-    class Variable : IExpression<double>
+    public class Variable : IExpression<double>
     {
         public readonly char Binding;
-        public readonly IExpression<double> BoundExpression;
+        private readonly Dictionary<char, IExpression<double>> BoundExpression;
 
-        public Variable(char binding, IExpression<double> boundExpression)
+        public Variable(char binding, Dictionary<char, IExpression<double>> boundExpression)
         {
+            System.Diagnostics.Debug.Assert(boundExpression.ContainsKey(binding));
             Binding = binding;
             BoundExpression = boundExpression;
         }
 
-        public double Evaluate()
-        {
-            return BoundExpression.Evaluate();
-        }
+        public double Evaluate() => BoundExpression[Binding].Evaluate();
+
+        public IExpression<double> GetExpression() => BoundExpression[Binding];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace oCalc
 {
-    class BinaryOp : IExpression<double>
+    public class BinaryOp : IExpression<double>
     {
         public Op Operation;
         public IExpression<double> lhs;
@@ -21,20 +21,20 @@ namespace oCalc
             {
                 case Op.Add:
                 case Op.Substract:
-                    if (Operation == Op.Add) // Si es una suma, la convertimos a substracción usando su negativa
+                    if (Operation == Op.Substract) // Si es una resta, la convertimos a suma usando su negativa
                     {
                         rhs = rhs.Negative();
-                        Operation = Op.Substract;
+                        Operation = Op.Add;
                     }
-                    return lhs.Evaluate() - rhs.Evaluate();
+                    return lhs.Evaluate() + rhs.Evaluate();
                 case Op.Multiply:
                 case Op.Divide:
-                    if (Operation == Op.Multiply) // si es una multiplicación, la convertimos a división usando su inversa
+                    if (Operation == Op.Divide) // si es una división, la convertimos a multiplicación usando su inversa
                     {
                         rhs = rhs.Inverse();
-                        Operation = Op.Divide;
+                        Operation = Op.Multiply;
                     }
-                    return lhs.Evaluate() / rhs.Evaluate();
+                    return lhs.Evaluate() * rhs.Evaluate();
                 case Op.Power:
                     return Math.Pow(lhs.Evaluate(), rhs.Evaluate());
                 case Op.Root:
@@ -42,6 +42,11 @@ namespace oCalc
                 default:
                     throw new InvalidOperationException("Unknown operation");
             }
+        }
+
+        public bool IsConstant()
+        {
+            return (lhs is Constant || (lhs is BinaryOp bl && bl.IsConstant())) && (rhs is Constant || (rhs is BinaryOp br && br.IsConstant()));
         }
     }
 }

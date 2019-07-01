@@ -1,6 +1,6 @@
 ﻿namespace oCalc
 {
-    enum Op
+    public enum Op
     {
         Add = 0,
         Substract = 1,

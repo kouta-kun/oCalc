@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace oCalc
@@ -27,7 +28,7 @@ namespace oCalc
                 string ret = "Variable $" + variable.Binding;
                 try
                 {
-                    string exp = variable.BoundExpression.AsTree();
+                    string exp = variable.GetExpression().AsTree();
                     ret += "\n|-- Expression: " + LineSplit(exp, 16);
                 }
                 catch (InvalidOperationException)
@@ -61,14 +62,53 @@ namespace oCalc
             }
         }
 
+
+        public static IEnumerable<Variable> VariablesInTree(this IExpression<double> tree)
+        {
+            if (tree is BinaryOp b)
+            {
+                return b.lhs.VariablesInTree().Union(b.rhs.VariablesInTree());
+            }
+            else if (tree is Variable v)
+            {
+                return new Variable[] { v };
+            }
+            else
+            {
+                return new Variable[0];
+            }
+        }
+
         public static IExpression<double> Inverse(this IExpression<double> expr) // Convertir las divisiones en multiplicaciones
         {                                                                        // a / b = a * (1/b)
-            return new Constant(1 / expr.Evaluate());
+            if (expr is Constant c)
+            {
+                return new Constant(1.0 / c.Value);
+            }
+            else if (expr is BinaryOp b && b.IsConstant())
+            {
+                return new Constant(1.0 / b.Evaluate());
+            }
+            else
+            {
+                return new BinaryOp(Op.Divide, new Constant(1), expr);
+            }
         }
 
         public static IExpression<double> Negative(this IExpression<double> expr) // Convertir las sumas en restas
         {                                                                         // a - b = a + (-b)
-            return new Constant(-expr.Evaluate());
+            if (expr is Constant c)
+            {
+                return new Constant(-c.Value);
+            }
+            else if (expr is BinaryOp b && b.IsConstant())
+            {
+                return new Constant(-b.Evaluate());
+            }
+            else
+            {
+                return new BinaryOp(Op.Substract, new Constant(0), expr);
+            }
         }
 
         public static int RankedIndex(this string str, char[] characters)         // La primera aparición en el texto del caracter de menor índice del arreglo

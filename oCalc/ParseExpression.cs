@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace oCalc
 {
-    static class ParseExpression
+    public static class ParseExpression
     {
         private static Dictionary<char, IExpression<double>> Constants = new Dictionary<char, IExpression<double>>
         {
